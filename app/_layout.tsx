@@ -1,37 +1,51 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { useFonts } from 'expo-font';
-import { Stack } from 'expo-router';
-import * as SplashScreen from 'expo-splash-screen';
-import { useEffect } from 'react';
-import 'react-native-reanimated';
+import { Tabs } from "expo-router";
+import Ionicons from "@expo/vector-icons/Ionicons";
+import { MaterialIcons } from "@expo/vector-icons";
+import { MaterialCommunityIcons } from "@expo/vector-icons";
 
-import { useColorScheme } from '@/hooks/useColorScheme';
-
-// Prevent the splash screen from auto-hiding before asset loading is complete.
-SplashScreen.preventAutoHideAsync();
-
-export default function RootLayout() {
-  const colorScheme = useColorScheme();
-  const [loaded] = useFonts({
-    SpaceMono: require('../assets/fonts/SpaceMono-Regular.ttf'),
-  });
-
-  useEffect(() => {
-    if (loaded) {
-      SplashScreen.hideAsync();
-    }
-  }, [loaded]);
-
-  if (!loaded) {
-    return null;
-  }
-
+export default function TabLayout() {
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="+not-found" />
-      </Stack>
-    </ThemeProvider>
+    <Tabs
+      screenOptions={{
+        tabBarActiveTintColor: "#006cc7",
+      }}
+    >
+      <Tabs.Screen
+        name="index"
+        options={{
+          title: "Home",
+          headerShown: false,
+          tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "home-sharp" : "home-outline"} color={color} size={24} />,
+        }}
+      />
+      <Tabs.Screen
+        name="mutasi"
+        options={{
+          title: "mutasi",
+          tabBarIcon: ({ color, focused }) => <MaterialIcons name={focused ? "description" : "description"} color={color} size={24} />,
+        }}
+      />
+      <Tabs.Screen
+        name="qris"
+        options={{
+          title: "qris",
+          tabBarIcon: ({ color, focused }) => <MaterialCommunityIcons name={focused ? "qrcode-scan" : "qrcode-scan"} color={color} size={24} />,
+        }}
+      />
+      <Tabs.Screen
+        name="aktivitas"
+        options={{
+          title: "aktivitas",
+          tabBarIcon: ({ color, focused }) => <MaterialIcons name={focused ? "mark-email-unread" : "mark-email-unread"} color={color} size={24} />,
+        }}
+      />
+      <Tabs.Screen
+        name="akun"
+        options={{
+          title: "akun",
+          tabBarIcon: ({ color, focused }) => <Ionicons name={focused ? "person" : "person-outline"} color={color} size={24} />,
+        }}
+      />
+    </Tabs>
   );
 }
